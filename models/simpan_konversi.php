@@ -1,10 +1,10 @@
 <?php
 session_start();
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 // Cek login user
 if (!isset($_SESSION['nip'])) {
-    header("Location: login.php");
+    header("Location: ../controllers/login.php");
     exit();
 }
 
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Jika ada error, kembalikan ke dashboard dengan pesan error
     if (!empty($errors)) {
         $_SESSION['error_message'] = implode('<br>', $errors);
-        header("Location: dashboard.php");
+        header("Location: ../controllers/dashboard.php");
         exit();
     }
     
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($result_check->num_rows > 0) {
         // Periode sudah ada, tampilkan pesan error
         $_SESSION['error_message'] = "Data untuk periode " . $periode . " tahun " . $tahun . " sudah ada. Silakan pilih periode yang berbeda atau edit data yang sudah ada.";
-        header("Location: dashboard.php");
+        header("Location: ../controllers/dashboard.php");
         exit();
     }
     
@@ -112,11 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error_message'] = "Terjadi kesalahan saat menyimpan data: " . $conn->error;
     }
     
-    header("Location: dashboard.php");
+    header("Location: ../controllers/dashboard.php");
     exit();
 } else {
     // Jika bukan POST request, redirect ke dashboard
-    header("Location: dashboard.php");
+    header("Location: ../controllers/dashboard.php");
     exit();
 }
 ?>

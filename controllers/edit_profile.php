@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 // Pastikan user sudah login
 if (!isset($_SESSION['nip'])) {
@@ -48,7 +48,7 @@ if (isset($_POST['update'])) {
     <meta charset="UTF-8">
     <title>Edit Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
