@@ -37,6 +37,34 @@ if (!$user) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .notification.success {
+            background-color: #28a745;
+            border-left: 4px solid #1e7e34;
+        }
+        .notification.error {
+            background-color: #dc3545;
+            border-left: 4px solid #bd2130;
+        }
+    </style>
 </head>
 <body>
     <!-- NAVBAR -->
@@ -124,6 +152,38 @@ if (!$user) {
     </div>
 
     <script>
+        // ===== NOTIFICATION FUNCTIONS =====
+        function showSuccessMessage(message) {
+            showNotification(message, 'success');
+        }
+
+        function showErrorMessage(message) {
+            showNotification(message, 'error');
+        }
+
+        function showNotification(message, type) {
+            // Remove existing notifications
+            $('.notification').remove();
+            
+            // Create notification element
+            const notification = $(`<div class="notification ${type}">${message}</div>`);
+            $('body').append(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.addClass('show');
+            }, 100);
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.removeClass('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // ===== LOAD DATA FORMAT 2 =====
         $("#btn-lihat-f2").click(function(e){
             e.preventDefault();
             let tahun = $("#tahun_pilih_f2").val();
@@ -131,7 +191,7 @@ if (!$user) {
             console.log("Button F2 clicked, tahun:", tahun);
             
             if(tahun === ""){
-                alert("Pilih tahun terlebih dahulu!");
+                showErrorMessage("Pilih tahun terlebih dahulu!");
                 return;
             }
 
@@ -157,8 +217,11 @@ if (!$user) {
                             $("#summary-container-f2").show();
                         }
                     } else {
-                        $("#tabel-format2").html(response.table_data);
+                        $("#tabel-format2").html(response.table_data || '<tr><td colspan="7" class="no-data-message">Tidak ada data untuk tahun ini</td></tr>');
                         $("#summary-container-f2").hide();
+                        if(response.message) {
+                            showErrorMessage(response.message);
+                        }
                     }
                 },
                 error: function(xhr, status, error) {
@@ -167,6 +230,7 @@ if (!$user) {
                     console.log("Status Code:", xhr.status);
                     $("#tabel-format2").html('<tr><td colspan="7" class="no-data-message" style="color: red;">Terjadi kesalahan saat memuat data</td></tr>');
                     $("#summary-container-f2").hide();
+                    showErrorMessage('Terjadi kesalahan saat memuat data');
                 }
             });
         });
@@ -180,7 +244,6 @@ if (!$user) {
             const rowKey = $(this).closest('tr').attr('data-row-key');
             
             let inputType = 'text';
-            let step = '';
             let inputOptions = '';
             
             // Determine input type based on field
@@ -331,7 +394,7 @@ if (!$user) {
             cell.html('<span style="color: #666; font-style: italic;">💾 Menyimpan...</span>');
             
             $.ajax({
-                url: 'update_konversi.php',
+                url: '../models/update_konversi.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -356,11 +419,19 @@ if (!$user) {
                         
                         showSuccessMessage('Data berhasil diperbarui!');
                         
-                        // Refresh summary data if necessary
-                        if (field === 'persentase' || field === 'koefisien' || field === 'tahun') {
+                        // Refresh data jika field penting diubah
+                        if (field === 'persentase' || field === 'koefisien') {
+                            // Update summary untuk persentase/koefisien, tapi tidak perlu reload penuh
                             setTimeout(function() {
                                 $("#btn-lihat-f2").click();
                             }, 1500);
+                        } else if (field === 'tahun') {
+                            // Jika tahun berubah, reload segera karena data mungkin pindah ke tahun lain
+                            setTimeout(function() {
+                                // Update dropdown ke tahun baru jika perlu
+                                $("#tahun_pilih_f2").val(newValue);
+                                $("#btn-lihat-f2").click();
+                            }, 1000);
                         }
                         
                     } else {
@@ -398,11 +469,14 @@ if (!$user) {
                             showErrorMessage('Gagal menghapus data: ' + response.message);
                         }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
                         showErrorMessage('Terjadi kesalahan saat menghapus data');
+                        console.error('Delete Error:', status, error);
+                        console.error('Response:', xhr.responseText);
                     }
                 });
             }
         }
     </script>
 </body>
+</html>
