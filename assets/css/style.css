@@ -61,7 +61,7 @@ button:hover { background: #004794; }
 /* ===== BODY DASHBOARD ===== */
 body.dashboard-page {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0f37eb 0%, #03e2ff 100%);
     margin: 0;
     display: block; 
     min-height: 100vh;
@@ -202,7 +202,7 @@ body.dashboard-page {
 }
 
 .dropdown a:hover {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #002fff, #00d9ff);
     color: white;
 }
 

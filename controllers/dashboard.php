@@ -44,10 +44,10 @@ if (!$user) {
             <img src="../assets/images/Logo_PTKI_Medan.png" class="logo" alt="Logo">
             <span class="app-title">SISTEM KONVERSI ANGKA KREDIT</span>
             <div class="nav-links">
-                <a href="dashboard.php" class="nav-link">Dashboard</a>
+                <!-- <a href="dashboard.php" class="nav-link">Dashboard</a>
                 <a href="../views/format1.php" class="nav-link">Input Data</a>
                 <a href="../views/format2.php" class="nav-link">Daftar Konversi</a>
-                <a href="../views/format3.php" class="nav-link">Rekap Konversi</a>
+                <a href="../views/format3.php" class="nav-link">Rekap Konversi</a> -->
             </div>
         </div>
         <div class="navbar-right">
@@ -136,25 +136,6 @@ if (!$user) {
                     <p>Lihat rekapitulasi dan cetak laporan</p>
                 </div>
                 <div class="card-arrow">→</div>
-            </div>
-        </div>
-
-        <!-- QUICK STATS -->
-        <div class="stats-section">
-            <h2>Statistik Singkat</h2>
-            <div class="stats-cards">
-                <div class="stat-card">
-                    <div class="stat-number" id="total-data">-</div>
-                    <div class="stat-label">Total Data</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="data-tahun-ini">-</div>
-                    <div class="stat-label">Data Tahun Ini</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="total-angka-kredit">-</div>
-                    <div class="stat-label">Total Angka Kredit</div>
-                </div>
             </div>
         </div>
     </div>
