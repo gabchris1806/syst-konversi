@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to Dashboard...</title>
-    <meta http-equiv="refresh" content="0; url=dashboard.php">
+    <meta http-equiv="refresh" content="0; url=controllers/dashboard.php">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,13 +38,13 @@
     <div class="loader">
         <div class="spinner"></div>
         <h2>Redirecting to Dashboard...</h2>
-        <p>If you are not redirected automatically, <a href="dashboard.php" style="color: #fff;">click here</a>.</p>
+        <p>If you are not redirected automatically, <a href="controllers/dashboard.php" style="color: #fff;">click here</a>.</p>
     </div>
 
     <script>
         // JavaScript redirect sebagai backup
         setTimeout(function() {
-            window.location.href = 'dashboard.php';
+            window.location.href = 'controllers/dashboard.php';
         }, 100);
     </script>
 </body>

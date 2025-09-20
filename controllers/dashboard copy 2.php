@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 // Cek login user
 if (!isset($_SESSION['nip'])) {
@@ -34,19 +34,19 @@ if (!$user) {
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="dashboard-page">
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-left">
-            <img src="Logo_PTKI_Medan.png" class="logo" alt="Logo">
+            <img src="../assets/images/Logo_PTKI_Medan.png" class="logo" alt="Logo">
             <span class="app-title">SISTEM KONVERSI ANGKA KREDIT</span>
         </div>
         <div class="navbar-right">
             <div class="profile-menu">
-                <img src="profile.png" class="profile" alt="Profile">
+                <img src="../assets/images/profile.png" class="profile" alt="Profile">
                 <div class="dropdown">
                     <a href="edit_profile.php">Profile</a>
                     <a href="logout.php">Logout</a>
@@ -87,7 +87,7 @@ if (!$user) {
             <!-- FORMAT 1 CONTENT -->
             <div class="form-content active" id="format1">
                 <h2>Form Konversi</h2>
-                <form class="konversi-form" action="simpan_konversi.php" method="POST">
+                <form class="konversi-form" action="../models/simpan_konversi.php" method="POST">
                     <div class="row">
                         <div class="form-group">
                             <label for="bulan_awal">Bulan Awal</label>
@@ -306,10 +306,10 @@ if (!$user) {
                                         <span class="description-text">AK Konversi</span>
                                     </div>
                                 </td>
-                                <td class="editable-cell" data-type="ak_konversi_lama">0,00</td>
-                                <td class="editable-cell" data-type="ak_konversi_baru" id="ak_konversi_from_form1">12.50</td>
-                                <td class="calculated-cell" data-type="ak_konversi_jumlah">12.50</td>
-                                <td class="editable-cell keterangan-cell" data-type="keterangan_4" contenteditable="true">Dari konversi</td>
+                                <td class="editable-cell" data-type="ak_konversi_lama">-</td>
+                                <td class="editable-cell" data-type="ak_konversi_baru" id="ak_konversi_from_form1">0.00</td>
+                                <td class="calculated-cell" data-type="ak_konversi_jumlah">0.00</td>
+                                <td class="editable-cell keterangan-cell" data-type="keterangan_4" contenteditable="true">-</td>
                             </tr>
                             <tr data-row-id="5">
                                 <td class="row-number">5</td>
@@ -347,8 +347,8 @@ if (!$user) {
                             </td>
                             
                             <td id="total_lama_kumulatif" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;">0.00</td>
-                            <td id="total_baru_kumulatif" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;">59.38</td>
-                            <td id="total_jumlah_kumulatif" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;">59.38</td>
+                            <td id="total_baru_kumulatif" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;">50.00</td>
+                            <td id="total_jumlah_kumulatif" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;">50.00</td>
                             <td id="total_" style="background-color: #007bff !important; text-align: center; border: 1px solid #007bff;"></td>
                         </tr>
 
@@ -371,14 +371,17 @@ if (!$user) {
                                 <td class="editable-cell" data-type="ak_minimal_jenjang">50</td>
                             </tr>
                             <tr>
-                                <td id="keterangan-pangkat" style="text-align: left; padding: 12px;">Kelebihan/ kekurangan <sup>)</sup> Angka Kredit yang harus dicapai untuk kenaikan pangkat</td>
-                                <td class="calculated-cell" data-type="kelebihan_pangkat">25.000</td>
+                                <td id="keterangan-pangkat" style="text-align: left; padding: 12px;">Kelebihan/ <span style="text-decoration: line-through;">kekurangan</span> <sup>**)</sup> Angka Kredit yang harus dicapai untuk kenaikan pangkat</td>
+                                <td class="calculated-cell" data-type="kelebihan_pangkat">12.500</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td id="keterangan-jenjang" style="text-align: left; padding: 12px;">Kelebihan/kekurangan <sup>)</sup> Angka Kredit yang harus dicapai untuk peningkatan jenjang</td>
+                                <td id="keterangan-jenjang" style="text-align: left; padding: 12px;">Kelebihan/<span style="text-decoration: line-through;">kekurangan</span> <sup>**)</sup> Angka Kredit yang harus dicapai untuk peningkatan jenjang</td>
                                 <td></td>
-                                <td class="calculated-cell" data-type="kelebihan_jenjang">25.000</td>
+                                <td class="calculated-cell" data-type="kelebihan_jenjang">12.500</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="colspan-row" style="padding: 12px; font-weight: bold;">DAPAT/TIDAK DAPAT <sup>**)</sup> DIPERTIMBANGKAN UNTUK PENGANGKATAN PERTAMA PNS DALAM JABATAN DOSEN ASISTEN AHLI</td>
                             </tr>
                         </tbody>
                     </table>
@@ -501,7 +504,7 @@ if (!$user) {
     function deleteKonversiData(id) {
         if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             $.ajax({
-                url: 'delete_konversi.php',
+                url: '../models/delete_konversi.php',
                 type: 'POST',
                 data: { id: id },
                 dataType: 'json',
@@ -551,8 +554,8 @@ if (!$user) {
         const headerHTML = `
             <div class="print-header" id="temp-print-header" style="margin-bottom: 30px; page-break-inside: avoid;">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="margin: 0; font-size: 16px; font-weight: bold;">PENETAPAN ANGKA KREDIT</h2>
-                    <p style="margin: 5px 0; font-size: 14px;">NOMOR : B/ /BPSDMI/PTKI/KP/I/${tahun}</p>
+                    <h2 style="margin: 0; font-size: 16px; font-weight: bold; display: block !important;">PENETAPAN ANGKA KREDIT</h2>
+                    <p style="margin: 5px 0; font-size: 14px;">NOMOR : B/   /BPSDMI/PTKI/KP/I/${tahun}</p>
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
@@ -945,7 +948,7 @@ if (!$user) {
         $("#summary-container-f2").hide();
         
         $.ajax({
-            url: "load_form2.php",
+            url: "../models/load_form2.php",
             type: "POST",
             data: {tahun_pilih: tahun},
             dataType: 'json',
@@ -1190,7 +1193,7 @@ if (!$user) {
     function deleteKonversiData(rowKey) {
         if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             $.ajax({
-                url: 'delete_konversi.php',
+                url: '../models/delete_konversi.php',
                 type: 'POST',
                 data: { row_key: rowKey },
                 dataType: 'json',
@@ -1226,7 +1229,7 @@ if (!$user) {
         console.log("Memuat data Format 3 untuk tahun:", tahun);
         
         $.ajax({
-            url: "load_form3.php",
+            url: "../models/load_form3.php",
             type: "POST",
             data: {tahun_pilih: tahun},
             dataType: 'json',

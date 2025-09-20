@@ -2,7 +2,7 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 if (isset($_POST['login'])) {
     $nip = $_POST['nip'];
@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-       
+    
         if (password_verify($password, $row['password'])) {
             $_SESSION['nama'] = $row['nama'];
             $_SESSION['nip'] = $row['nip'];
@@ -40,7 +40,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         body {
             background: linear-gradient(135deg, #2E7D32, #D0F0C0) !important;

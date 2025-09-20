@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 // Cek login admin
 if (!isset($_SESSION['nip']) || $_SESSION['role'] !== 'admin') {
@@ -90,7 +90,7 @@ if (isset($_GET['view_user']) && isset($_GET['nip'])) {
     <meta charset="UTF-8">
     <title>Admin Dashboard - PTPN IV</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -606,7 +606,7 @@ if (isset($_GET['view_user']) && isset($_GET['nip'])) {
         </div>
         <div class="navbar-right">
             <div class="profile-menu">
-                <img src="profile.png" class="profile" alt="Profile">
+                <img src="assets/images/profile.png" class="profile" alt="Profile">
                 <div class="dropdown">
                     <a href="edit_profile.php">Profile</a>
                     <a href="logout.php">Logout</a>

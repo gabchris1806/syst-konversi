@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include "db.php";
+include __DIR__ . '/../config/db.php';
 
 if (isset($_POST['register'])) {
     $nip = $_POST['nip'];
@@ -31,7 +31,7 @@ if (isset($_POST['register'])) {
     <meta charset="UTF-8">
     <title>Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         body {
             background: linear-gradient(135deg, #2E7D32, #D0F0C0) !important;
